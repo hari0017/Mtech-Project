@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2100" viewBox="0 0 1600 2100">
+<rect width="100%" height="100%" fill="white"/>
+<rect x="480" y="20" width="640" height="110" rx="16" fill="#edf1f5" stroke="#6b8192" stroke-width="2.5"/>
+<text x="800.0" y="63" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Start: select project execution path</text>
+<text x="800.0" y="104" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">A or B</text>
+<text x="390" y="192" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="34" font-weight="700">A. Pangenome / DNABERT</text>
+<text x="1210" y="192" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="34" font-weight="700">B. FASTA / classical ML</text>
+<polyline points="650,130 650,157 390,157 390,220" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,220 381,205 399,205" fill="#314e63"/>
+<polyline points="950,130 950,157 1210,157 1210,220" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,220 1201,205 1219,205" fill="#314e63"/>
+<rect x="70" y="220" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="263" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Load graph and model settings</text>
+<text x="390.0" y="304" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">GFA; optional indexed labels</text>
+<text x="390.0" y="339" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Pretrained or trained checkpoint</text>
+<polyline points="390,380 390,450" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,450 381,435 399,435" fill="#314e63"/>
+<rect x="70" y="450" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="493" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Prepare graph-derived sequences</text>
+<text x="390.0" y="534" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Parse -&gt; directed graph -&gt; DAG</text>
+<text x="390.0" y="569" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Extract paths -&gt; concatenate DNA</text>
+<polyline points="390,610 390,680" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,680 381,665 399,665" fill="#314e63"/>
+<rect x="70" y="680" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="723" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Encode DNA for DNABERT</text>
+<text x="390.0" y="764" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Checkpoint-aligned k-mer IDs</text>
+<text x="390.0" y="799" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Special tokens, masks and padding</text>
+<polyline points="390,840 390,910" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,910 381,895 399,895" fill="#314e63"/>
+<rect x="70" y="910" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="953" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Training mode: fit and validate</text>
+<text x="390.0" y="994" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Group inputs; train / val / test split</text>
+<text x="390.0" y="1029" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Fine-tune; select validation threshold</text>
+<polyline points="390,1070 390,1140" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,1140 381,1125 399,1125" fill="#314e63"/>
+<rect x="70" y="1140" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="1183" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Predict with a trained model</text>
+<text x="390.0" y="1224" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Training run: held-out test inputs</text>
+<text x="390.0" y="1259" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Inference run: new encoded inputs</text>
+<polyline points="390,1300 390,1370" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,1370 381,1355 399,1355" fill="#314e63"/>
+<rect x="70" y="1370" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="1413" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Evaluate when labels are available</text>
+<text x="390.0" y="1454" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Keep test data out of model selection</text>
+<text x="390.0" y="1489" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Fixed-threshold metrics</text>
+<polyline points="390,1530 390,1600" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="390,1600 381,1585 399,1585" fill="#314e63"/>
+<rect x="70" y="1600" width="640" height="160" rx="16" fill="#e9f3fa" stroke="#6b8192" stroke-width="2.5"/>
+<text x="390.0" y="1643" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Present and preserve results</text>
+<text x="390.0" y="1684" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Class probabilities and predictions</text>
+<text x="390.0" y="1719" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Training: checkpoint + experiment.json</text>
+<rect x="890" y="220" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="263" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Load and audit FASTA dataset</text>
+<text x="1210.0" y="304" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">APP / PSEN1 / PSEN2 + folder labels</text>
+<text x="1210.0" y="339" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Inspect duplicates and label conflicts</text>
+<polyline points="1210,380 1210,450" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,450 1201,435 1219,435" fill="#314e63"/>
+<rect x="890" y="450" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="493" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Separate training and test data</text>
+<text x="1210.0" y="534" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Gene + class-stratified holdout</text>
+<text x="1210.0" y="569" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Five folds within training partition</text>
+<polyline points="1210,610 1210,680" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,680 1201,665 1219,665" fill="#314e63"/>
+<rect x="890" y="680" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="723" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Fit candidate pipelines in CV</text>
+<text x="1210.0" y="764" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Training-fold references and features</text>
+<text x="1210.0" y="799" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Scaling; optional selection / SMOTE</text>
+<polyline points="1210,840 1210,910" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,910 1201,895 1219,895" fill="#314e63"/>
+<rect x="890" y="910" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="953" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Choose and evaluate the winner</text>
+<text x="1210.0" y="994" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Select by mean CV macro F1; refit</text>
+<text x="1210.0" y="1029" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Evaluate once on reserved holdout</text>
+<polyline points="1210,1070 1210,1140" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,1140 1201,1125 1219,1125" fill="#314e63"/>
+<rect x="890" y="1140" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="1183" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Keep fitted pipeline for web use</text>
+<text x="1210.0" y="1224" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Flask stores the trained pipeline</text>
+<text x="1210.0" y="1259" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Dashboard shows training results</text>
+<polyline points="1210,1300 1210,1370" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,1370 1201,1355 1219,1355" fill="#314e63"/>
+<rect x="890" y="1370" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="1413" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Validate and predict new upload</text>
+<text x="1210.0" y="1454" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">FASTA + trained gene; input checks</text>
+<text x="1210.0" y="1489" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Reuse fitted transforms and classifier</text>
+<polyline points="1210,1530 1210,1600" fill="none" stroke="#314e63" stroke-width="3.5"/>
+<polygon points="1210,1600 1201,1585 1219,1585" fill="#314e63"/>
+<rect x="890" y="1600" width="640" height="160" rx="16" fill="#eaf4e7" stroke="#6b8192" stroke-width="2.5"/>
+<text x="1210.0" y="1643" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Return results to the user</text>
+<text x="1210.0" y="1684" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Per-record class and probabilities</text>
+<text x="1210.0" y="1719" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Dashboard metrics and visualizations</text>
+<polyline points="710,760 795,760 795,1220 710,1220" fill="none" stroke="#314e63" stroke-width="3.5" stroke-dasharray="12 9"/>
+<polygon points="710,1220 725,1211 725,1229" fill="#314e63"/>
+<text x="800" y="1910" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Bypass route: inference-only mode loads a trained checkpoint and its fixed threshold.</text>
+<text x="800" y="1960" text-anchor="middle" fill="#142b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">A and B are two execution paths within one project.</text>
+</svg>

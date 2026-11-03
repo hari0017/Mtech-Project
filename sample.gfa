@@ -1,0 +1,32 @@
+H	VN:Z:pangenome_sample	VS:i:0
+S	s1	ATCGATCGATCG
+S	s2	GCTAGCTAGCTA
+S	s3	TTAACCGGTTAA
+S	s4	CCGGAATTCCGG
+S	s5	AAGCTTAAGCTT
+S	s6	GGCCAATTGGCC
+S	s7	TACGTACGTACG
+S	s8	CATGCATGCATG
+S	s9	AATTCCGGAATT
+S	s10	GCGCAATTGCGC
+S	s11	TTGGCCAATTGG
+S	s12	ACGTACGTACGT
+L	s1	+	s2	+	0M
+L	s1	+	s3	+	0M
+L	s2	+	s4	+	0M
+L	s3	+	s4	+	0M
+L	s3	+	s5	+	0M
+L	s4	+	s6	+	0M
+L	s5	+	s6	+	0M
+L	s5	+	s7	+	0M
+L	s6	+	s8	+	0M
+L	s7	+	s8	+	0M
+L	s7	+	s9	+	0M
+L	s8	+	s10	+	0M
+L	s9	+	s10	+	0M
+L	s9	+	s11	+	0M
+L	s10	+	s12	+	0M
+L	s11	+	s12	+	0M
+L	s6	+	s3	+	0M
+P	path1	s1+,s2+,s4+,s6+,s8+,s10+,s12+	*
+P	path2	s1+,s3+,s5+,s7+,s9+,s11+,s12+	*

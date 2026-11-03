@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Sequence Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root { --primary: #2563eb; --success: #16a34a; --danger: #dc2626; }
+        body { background: #f1f5f9; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
+        .card { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .card-header { border-radius: 12px 12px 0 0 !important; }
+        .metric-card { text-align: center; padding: 1.2rem; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: transform 0.2s; }
+        .metric-card:hover { transform: translateY(-3px); }
+        .metric-value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .metric-label { font-size: 0.8rem; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
+        .btn-primary { background: var(--primary); border: none; border-radius: 8px; padding: 10px 24px; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .badge-healthy { background: #dcfce7; color: #166534; }
+        .badge-unhealthy { background: #fee2e2; color: #991b1b; }
+        .chart-container { position: relative; height: 280px; }
+        .loading { display: none; text-align: center; padding: 2rem; }
+        .loading.active { display: block; }
+        .spinner-grow { width: 1rem; height: 1rem; }
+        .table-results th { background: #f8fafc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        #results-section { display: none; }
+        .nav-pills .nav-link.active { background: var(--primary); }
+        .comparison-table td, .comparison-table th { font-size: 0.85rem; }
+        .hero-section { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: #fff; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark px-4 py-3">
+        <span class="navbar-brand fw-bold">
+            <i class="fas fa-dna me-2"></i>Gene Sequence Classifier
+        </span>
+        <span class="text-white-50 small">Pangenome-Based Variant Pathogenicity Prediction</span>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+        <!-- Hero -->
+        <div class="hero-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="fw-bold mb-2">Variant Pathogenicity Prediction</h2>
+                    <p class="mb-0 opacity-75">Classify gene sequences (APP, PSEN1, PSEN2) as Healthy or Unhealthy using ML models with k-mer frequency, genomic features, and mutation analysis.</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <i class="fas fa-microscope" style="font-size: 4rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-4" id="mainTabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="pill" href="#tab-train">
+                    <i class="fas fa-cogs me-1"></i> Train & Evaluate
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="pill" href="#tab-predict">
+                    <i class="fas fa-upload me-1"></i> Upload & Predict
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- TRAIN TAB -->
+            <div class="tab-pane fade show active" id="tab-train">
+                <div class="row">
+                    <!-- Settings Panel -->
+                    <div class="col-lg-3 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white fw-bold py-3">
+                                <i class="fas fa-sliders-h me-2 text-primary"></i>Pipeline Settings
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Dataset Path</label>
+                                    <input type="text" class="form-control form-control-sm" id="dataset-path" value="Dataset/Dataset">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">K-mer Size</label>
+                                    <select class="form-select form-select-sm" id="kmer-size">
+                                        <option value="3">3 (64 features)</option>
+                                        <option value="4" selected>4 (256 features)</option>
+                                        <option value="5">5 (1024 features)</option>
+                                        <option value="6">6 (4096 features)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Model</label>
+                                    <select class="form-select form-select-sm" id="model-select">
+                                        <option value="rf">Random Forest</option>
+                                        <option value="svm">SVM</option>
+                                        <option value="lr">Logistic Regression</option>
+                                        <option value="gb">Gradient Boosting</option>
+                                        <option value="all">Compare All Models</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Test Split</label>
+                                    <input type="range" class="form-range" id="test-size" min="0.1" max="0.4" step="0.05" value="0.3">
+                                    <span class="small text-muted" id="test-size-label">30%</span>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="smote-check">
+                                    <label class="form-check-label small" for="smote-check">Enable SMOTE</label>
+                                </div>
+                                <button class="btn btn-primary w-100 fw-bold" id="train-btn" onclick="runTraining()">
+                                    <i class="fas fa-play me-2"></i>Run Pipeline
+                                </button>
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" id="compare-features">
+                                    <label class="form-check-label small" for="compare-features">Compare four feature sets</label>
+                                </div>
+                                <button class="btn btn-outline-secondary w-100 mt-3" id="audit-btn" onclick="runAudit()">
+                                    <i class="fas fa-magnifying-glass me-2" aria-hidden="true"></i>Audit Dataset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="col-lg-9">
+                        <p id="run-error" class="text-danger" role="alert"></p>
+                        <section id="audit-section" class="mb-4" hidden aria-labelledby="audit-heading">
+                            <h3 id="audit-heading" class="h5">Dataset Quality Audit</h3>
+                            <p id="audit-summary"></p>
+                            <p id="audit-warning" class="text-danger" role="alert"></p>
+                            <p id="audit-scope" class="small text-muted"></p>
+                            <div class="table-responsive">
+                                <table class="table table-sm"><thead><tr><th>Sequence group</th><th>Copies</th><th>Labels conflict</th><th>Holdout overlap</th><th>Files</th></tr></thead><tbody id="audit-rows"></tbody></table>
+                            </div>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="downloadJson(lastAudit, 'dataset-audit.json')"><i class="fas fa-download me-2" aria-hidden="true"></i>Download Audit</button>
+                        </section>
+                        <div class="loading" id="loading">
+                            <span class="spinner-grow text-primary"></span>
+                            <span class="spinner-grow text-primary" style="animation-delay: 0.1s"></span>
+                            <span class="spinner-grow text-primary" style="animation-delay: 0.2s"></span>
+                            <p class="text-muted mt-3">Training model... This may take a moment.</p>
+                        </div>
+
+                        <div id="results-section">
+                            <!-- Dataset Info -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-white fw-bold py-3">
+                                    <i class="fas fa-database me-2 text-primary"></i>Dataset Summary
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3" id="dataset-metrics"></div>
+                                </div>
+                            </div>
+
+                            <!-- Metrics -->
+                            <div class="card mb-4">
+                                <div class="card-header bg-white fw-bold py-3">
+                                    <i class="fas fa-chart-bar me-2 text-success"></i>Held-out Test Performance
+                                    <span class="badge bg-primary ms-2" id="best-model-badge"></span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3" id="metric-cards"></div>
+                                </div>
+                            </div>
+
+                            <!-- Comparison Table -->
+                            <div class="card mb-4" id="comparison-card" style="display:none;">
+                                <div class="card-header bg-white fw-bold py-3">
+                                    <i class="fas fa-table me-2 text-info"></i>Five-fold Validation Comparison (Mean +/- SD)
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover comparison-table mb-0" id="comparison-table">
+                                            <thead></thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <section class="mb-4" aria-labelledby="cv-heading">
+                                <h3 id="cv-heading" class="h5">Validation &amp; Split Audit</h3>
+                                <button class="btn btn-outline-secondary btn-sm mb-2" onclick="downloadJson(lastResult, 'validation-results.json')"><i class="fas fa-download me-2" aria-hidden="true"></i>Download Results</button>
+                                <p id="split-summary" class="small"></p>
+                                <div class="table-responsive">
+                                    <table class="table table-sm" id="fold-table">
+                                        <caption>Selected model: five-fold validation on training data</caption>
+                                        <thead><tr><th>Fold</th><th>Training</th><th>Validation</th><th>Accuracy</th><th>F1 macro</th><th>ROC-AUC</th></tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-sm" id="gene-table">
+                                        <caption>Per-gene held-out test results</caption>
+                                        <thead><tr><th>Gene</th><th>Train H/U</th><th>Test H/U</th><th>Test accuracy</th><th>Test F1 macro</th></tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <p class="small text-muted">Research results only. Related or generated sequences may inflate generalization estimates; PSEN2 has a small test sample.</p>
+                            </section>
+
+                            <!-- Charts Row -->
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-white fw-bold small py-2">Confusion Matrix</div>
+                                        <div class="card-body"><div class="chart-container"><canvas id="cm-chart"></canvas></div></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-white fw-bold small py-2">ROC Curve</div>
+                                        <div class="card-body"><div class="chart-container"><canvas id="roc-chart"></canvas></div></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-white fw-bold small py-2">Feature Importance</div>
+                                        <div class="card-body"><div class="chart-container"><canvas id="feat-chart"></canvas></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PREDICT TAB -->
+            <div class="tab-pane fade" id="tab-predict">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-white fw-bold py-3">
+                                <i class="fas fa-file-upload me-2 text-primary"></i>Upload FASTA for Prediction
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info small" id="predict-info">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Full-length, coordinate-matched sequences from one selected gene only. Research use, not a diagnosis. Probabilities are not calibrated disease risks.
+                                </div>
+                                <div class="mb-3">
+                                    <label for="upload-gene" class="form-label">Gene</label>
+                                    <select id="upload-gene" class="form-select"><option value="">Select gene</option><option>APP</option><option>PSEN1</option><option>PSEN2</option></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fasta-file" class="form-label">FASTA file (up to 16 MB)</label>
+                                    <input class="form-control" type="file" id="fasta-file" accept=".fasta,.fa,.fna">
+                                </div>
+                                <button class="btn btn-primary" id="predict-btn" onclick="runPrediction()">
+                                    <i class="fas fa-search me-2"></i>Predict
+                                </button>
+                                <p id="predict-error" class="text-danger mt-3" role="alert"></p>
+                                <p id="predict-warning" class="small text-muted"></p>
+
+                                <div class="loading mt-3" id="predict-loading">
+                                    <span class="spinner-grow spinner-grow-sm text-primary"></span>
+                                    <span class="ms-2 text-muted">Classifying sequences...</span>
+                                </div>
+
+                                <div id="predict-results" class="mt-4" style="display:none;">
+                                    <div class="row g-3 mb-3" id="predict-summary"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-sm" id="predict-table">
+                                            <thead class="table-results">
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Sequence</th>
+                                                    <th>Length</th>
+                                                    <th>Prediction</th>
+                                                    <th>Model probability</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let charts = {};
+        let lastAudit = null;
+        let lastResult = null;
+        const featureLabels = {kmer: 'K-mers only', composition: 'K-mers + composition', mutation: 'K-mers + composition + mutation', all: 'All features + gene identity'};
+
+        function escapeHtml(value) {
+            const element = document.createElement('span');
+            element.textContent = String(value);
+            return element.innerHTML;
+        }
+
+        function downloadJson(data, filename) {
+            if (!data) return;
+            const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function displayAudit(data) {
+            lastAudit = data;
+            document.getElementById('audit-section').hidden = false;
+            document.getElementById('audit-summary').textContent = `${data.total} files; ${data.unique_sequences} unique sequences; ${data.duplicate_groups} duplicate groups; ${data.duplicate_extra_copies} extra copies; ${data.conflicting_groups} conflicting-label groups.`;
+            document.getElementById('audit-warning').textContent = data.conflicting_groups || data.holdout_overlap_groups
+                ? `Review required: ${data.conflicting_groups} label conflicts and ${data.holdout_overlap_groups} exact-match groups crossing the holdout. Evaluation may be misleading.` : '';
+            document.getElementById('audit-scope').textContent = data.scope + (data.split_checked ? '' : ' Holdout overlap not checked until training.');
+            document.getElementById('audit-rows').innerHTML = data.groups.map(group =>
+                `<tr><td>${group.sha256.slice(0,12)}</td><td>${group.count}</td><td>${group.conflicting_labels ? 'Yes' : 'No'}</td><td>${data.split_checked ? (group.crosses_holdout ? 'Yes' : 'No') : 'Not checked'}</td><td style="min-width:220px;overflow-wrap:anywhere">${group.members.map(member=>escapeHtml(member.file) + ' (label ' + member.label + ')').join('<br>')}</td></tr>`
+            ).join('');
+        }
+
+        async function runAudit() {
+            const button = document.getElementById('audit-btn');
+            button.disabled = true;
+            document.getElementById('run-error').textContent = '';
+            try {
+                const response = await fetch('/audit', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({dataset:document.getElementById('dataset-path').value})});
+                const data = await response.json();
+                if (!response.ok || data.error) throw new Error(data.error || 'Audit failed');
+                displayAudit(data);
+            } catch (error) { document.getElementById('run-error').textContent = error.message; }
+            finally { button.disabled = false; }
+        }
+
+        document.getElementById('test-size').addEventListener('input', function() {
+            document.getElementById('test-size-label').textContent = Math.round(this.value * 100) + '%';
+        });
+
+        function runTraining() {
+            document.getElementById('run-error').textContent = '';
+            document.getElementById('predict-btn').disabled = true;
+            document.getElementById('audit-btn').disabled = true;
+            const btn = document.getElementById('train-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Running...';
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('results-section').style.display = 'none';
+
+            const payload = {
+                kmer: document.getElementById('kmer-size').value,
+                model: document.getElementById('model-select').value,
+                test_size: parseFloat(document.getElementById('test-size').value),
+                smote: document.getElementById('smote-check').checked,
+                compare_features: document.getElementById('compare-features').checked,
+                dataset: document.getElementById('dataset-path').value,
+            };
+
+            fetch('/train', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload),
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { document.getElementById('run-error').textContent = data.error; return; }
+                displayResults(data);
+            })
+            .catch(err => { document.getElementById('run-error').textContent = err.message; })
+            .finally(() => {
+                document.getElementById('predict-btn').disabled = false;
+                document.getElementById('audit-btn').disabled = false;
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play me-2"></i>Run Pipeline';
+                document.getElementById('loading').classList.remove('active');
+            });
+        }
+
+        function displayResults(data) {
+            lastResult = data;
+            displayAudit(data.audit);
+            document.getElementById('results-section').style.display = 'block';
+
+            // Dataset metrics
+            const ds = data.dataset;
+            document.getElementById('dataset-metrics').innerHTML = `
+                <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-value">${ds.total}</div><div class="metric-label">Total Sequences</div></div></div>
+                <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-value text-success">${ds.healthy}</div><div class="metric-label">Healthy</div></div></div>
+                <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-value text-danger">${ds.unhealthy}</div><div class="metric-label">Unhealthy</div></div></div>
+                <div class="col-6 col-md-3"><div class="metric-card"><div class="metric-value">${data.feature_shape[1]}</div><div class="metric-label">Features</div></div></div>
+            `;
+
+            // Model metrics
+            const m = data.metrics;
+            document.getElementById('best-model-badge').textContent = data.best_model;
+            document.getElementById('split-summary').textContent =
+                `${data.split.train} training / ${data.split.test} held-out test samples. ` +
+                `5 folds; gene + class stratification; seed ${data.split.seed}. ` +
+                `${data.best_model} / ${featureLabels[data.best_features]} selected by mean validation F1 macro: ` +
+                `${data.cv.f1_macro.toFixed(4)} +/- ${data.cv.std.f1_macro.toFixed(4)}.`;
+            document.querySelector('#fold-table tbody').innerHTML = data.cv.folds.map(fold =>
+                `<tr><td>${fold.fold}</td><td>${fold.train}</td><td>${fold.validation}</td>` +
+                `<td>${fold.accuracy.toFixed(4)}</td><td>${fold.f1_macro.toFixed(4)}</td>` +
+                `<td>${fold.roc_auc.toFixed(4)}</td></tr>`
+            ).join('');
+            document.querySelector('#gene-table tbody').innerHTML = Object.entries(data.split.genes).map(([gene, counts]) =>
+                `<tr><td>${gene}</td><td>${counts.train.healthy} / ${counts.train.unhealthy}</td>` +
+                `<td>${counts.test.healthy} / ${counts.test.unhealthy}</td>` +
+                `<td>${data.per_gene[gene].accuracy.toFixed(4)}</td>` +
+                `<td>${data.per_gene[gene].f1_macro.toFixed(4)}</td></tr>`
+            ).join('');
+            document.getElementById('metric-cards').innerHTML = `
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.accuracy*100).toFixed(1)}%</div><div class="metric-label">Accuracy</div></div></div>
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.f1_macro*100).toFixed(1)}%</div><div class="metric-label">F1 Macro</div></div></div>
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.roc_auc*100).toFixed(1)}%</div><div class="metric-label">ROC-AUC</div></div></div>
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.recall_unhealthy*100).toFixed(1)}%</div><div class="metric-label">Recall (Unhealthy)</div></div></div>
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.recall_healthy*100).toFixed(1)}%</div><div class="metric-label">Recall (Healthy)</div></div></div>
+                <div class="col-6 col-md-2"><div class="metric-card"><div class="metric-value">${(m.precision_unhealthy*100).toFixed(1)}%</div><div class="metric-label">Precision (Unhealthy)</div></div></div>
+            `;
+
+            // Comparison table
+            if (data.comparison) {
+                document.getElementById('comparison-card').style.display = 'block';
+                const thead = `<tr><th>Model</th><th>Feature set</th><th>Features</th><th>Accuracy</th><th>F1 Macro</th><th>ROC-AUC</th><th>Recall (Unhealthy)</th><th>Recall (Healthy)</th></tr>`;
+                let tbody = '';
+                data.comparison.forEach(row => {
+                    const isBest = row.name === data.best_model && row.feature_set === data.best_features;
+                    tbody += `<tr class="${isBest ? 'table-primary' : ''}">
+                        <td class="fw-bold">${row.name} ${isBest ? '&#11088;' : ''}</td>
+                        <td>${featureLabels[row.feature_set]}</td><td>${row.features}</td>
+                        <td>${row.accuracy.toFixed(4)} +/- ${row.std.accuracy.toFixed(4)}</td>
+                        <td>${row.f1_macro.toFixed(4)} +/- ${row.std.f1_macro.toFixed(4)}</td>
+                        <td>${row.roc_auc.toFixed(4)} +/- ${row.std.roc_auc.toFixed(4)}</td>
+                        <td>${row.recall_unhealthy.toFixed(4)} +/- ${row.std.recall_unhealthy.toFixed(4)}</td>
+                        <td>${row.recall_healthy.toFixed(4)} +/- ${row.std.recall_healthy.toFixed(4)}</td>
+                    </tr>`;
+                });
+                document.querySelector('#comparison-table thead').innerHTML = thead;
+                document.querySelector('#comparison-table tbody').innerHTML = tbody;
+            } else {
+                document.getElementById('comparison-card').style.display = 'none';
+            }
+
+            // Charts
+            renderConfusionMatrix(data.confusion_matrix);
+            if (data.roc) renderROC(data.roc);
+            destroyChart('feat');
+            if (data.top_features && data.top_features.length) renderFeatures(data.top_features);
+        }
+
+        function destroyChart(id) {
+            if (charts[id]) { charts[id].destroy(); charts[id] = null; }
+        }
+
+        function renderConfusionMatrix(cm) {
+            destroyChart('cm');
+            const ctx = document.getElementById('cm-chart').getContext('2d');
+            charts['cm'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['True Neg\n(H\u2192H)', 'False Pos\n(H\u2192U)', 'False Neg\n(U\u2192H)', 'True Pos\n(U\u2192U)'],
+                    datasets: [{
+                        data: [cm[0][0], cm[0][1], cm[1][0], cm[1][1]],
+                        backgroundColor: ['#86efac', '#fca5a5', '#fca5a5', '#86efac'],
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function renderROC(roc) {
+            destroyChart('roc');
+            const ctx = document.getElementById('roc-chart').getContext('2d');
+            charts['roc'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: roc.fpr,
+                    datasets: [
+                        { label: `ROC (AUC=${roc.auc})`, data: roc.tpr, borderColor: '#2563eb', borderWidth: 2, fill: false, pointRadius: 0 },
+                        { label: 'Random', data: roc.fpr, borderColor: '#94a3b8', borderWidth: 1, borderDash: [5,5], fill: false, pointRadius: 0 },
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+                    scales: { x: { title: { display: true, text: 'FPR' } }, y: { title: { display: true, text: 'TPR' } } }
+                }
+            });
+        }
+
+        function renderFeatures(features) {
+            destroyChart('feat');
+            const ctx = document.getElementById('feat-chart').getContext('2d');
+            charts['feat'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: features.map(f => f.name),
+                    datasets: [{
+                        data: features.map(f => f.importance),
+                        backgroundColor: '#60a5fa',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function runPrediction() {
+            const fileInput = document.getElementById('fasta-file');
+            const gene = document.getElementById('upload-gene').value;
+            document.getElementById('predict-error').textContent = '';
+            document.getElementById('predict-warning').textContent = '';
+            document.getElementById('predict-results').style.display = 'none';
+            if (!fileInput.files.length || !gene) { document.getElementById('predict-error').textContent = 'Select a gene and a FASTA file.'; return; }
+            document.getElementById('predict-btn').disabled = true;
+
+            document.getElementById('predict-loading').classList.add('active');
+            document.getElementById('predict-results').style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('gene', gene);
+
+            fetch('/predict', { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) { document.getElementById('predict-error').textContent = data.error; return; }
+                document.getElementById('predict-warning').textContent = data.warning;
+                document.getElementById('predict-results').style.display = 'block';
+
+                document.getElementById('predict-summary').innerHTML = `
+                    <div class="col-4"><div class="metric-card"><div class="metric-value">${data.total}</div><div class="metric-label">Total</div></div></div>
+                    <div class="col-4"><div class="metric-card"><div class="metric-value text-success">${data.healthy_count}</div><div class="metric-label">Healthy</div></div></div>
+                    <div class="col-4"><div class="metric-card"><div class="metric-value text-danger">${data.unhealthy_count}</div><div class="metric-label">Unhealthy</div></div></div>
+                `;
+
+                let tbody = '';
+                data.predictions.forEach((r, i) => {
+                    const badge = r.class === 0
+                        ? '<span class="status-badge badge-healthy">Healthy</span>'
+                        : '<span class="status-badge badge-unhealthy">Unhealthy</span>';
+                    tbody += `<tr>
+                        <td>${i+1}</td>
+                        <td class="small" style="overflow-wrap:anywhere;max-width:320px">${escapeHtml(r.header)}</td>
+                        <td>${r.length.toLocaleString()} bp</td>
+                        <td>${badge}</td>
+                        <td>${r.confidence ? (r.confidence*100).toFixed(1)+'%' : '-'}</td>
+                    </tr>`;
+                });
+                document.querySelector('#predict-table tbody').innerHTML = tbody;
+            })
+            .catch(err => { document.getElementById('predict-error').textContent = err.message; })
+            .finally(() => {
+                document.getElementById('predict-btn').disabled = false;
+                document.getElementById('predict-loading').classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

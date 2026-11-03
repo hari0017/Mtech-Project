@@ -1,0 +1,128 @@
+
+========================================================================
+  PANGENOME -> DNABERT PATHOGENICITY PREDICTION PIPELINE
+========================================================================
+  GFA file       : sample.gfa
+  K-mer size     : 3
+  Max seq length : 128
+  Model          : zhihan1996/DNA_bert_3
+  Random seed    : 42
+
+========================================================================
+  STAGE 1-2: Graph Processing (GFA -> DAG)
+========================================================================
+  Segments in GFA   : 12
+  Links in GFA      : 17
+  Named paths (P)   : 2
+  DAG nodes         : 9
+  DAG edges         : 12
+  SCCs contracted   : 1
+
+========================================================================
+  STAGE 3: Path Extraction
+========================================================================
+  Path  1: s1 -> s2 -> SCC_s3_s4_s5_s6 -> s7 -> s8 -> s10 -> s12
+  Path  2: s1 -> s2 -> SCC_s3_s4_s5_s6 -> s7 -> s9 -> s10 -> s12
+  Path  3: s1 -> s2 -> SCC_s3_s4_s5_s6 -> s7 -> s9 -> s11 -> s12
+  Path  4: s1 -> s2 -> SCC_s3_s4_s5_s6 -> s8 -> s10 -> s12
+  Path  5: s1 -> SCC_s3_s4_s5_s6 -> s7 -> s8 -> s10 -> s12
+  Path  6: s1 -> SCC_s3_s4_s5_s6 -> s7 -> s9 -> s10 -> s12
+  Path  7: s1 -> SCC_s3_s4_s5_s6 -> s7 -> s9 -> s11 -> s12
+  Path  8: s1 -> SCC_s3_s4_s5_s6 -> s8 -> s10 -> s12
+
+========================================================================
+  STAGE 4: Sequence Linearization
+========================================================================
+  Seq  1 (   120 bp): ATCGATCGATCGGCTAGCTAGCTATTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTT...
+  Seq  2 (   120 bp): ATCGATCGATCGGCTAGCTAGCTATTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTT...
+  Seq  3 (   120 bp): ATCGATCGATCGGCTAGCTAGCTATTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTT...
+  Seq  4 (   108 bp): ATCGATCGATCGGCTAGCTAGCTATTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTT...
+  Seq  5 (   108 bp): ATCGATCGATCGTTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTTGGCCAATTGGCC...
+  Seq  6 (   108 bp): ATCGATCGATCGTTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTTGGCCAATTGGCC...
+  Seq  7 (   108 bp): ATCGATCGATCGTTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTTGGCCAATTGGCC...
+  Seq  8 (    96 bp): ATCGATCGATCGTTAACCGGTTAACCGGAATTCCGGAAGCTTAAGCTTGGCCAATTGGCC...
+
+========================================================================
+  STAGE 5: Tokenization (k=3)
+========================================================================
+  Seq  1:   118 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGG GGC ...]
+  Seq  2:   118 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGG GGC ...]
+  Seq  3:   118 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGG GGC ...]
+  Seq  4:   106 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGG GGC ...]
+  Seq  5:   106 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGT GTT ...]
+  Seq  6:   106 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGT GTT ...]
+  Seq  7:   106 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGT GTT ...]
+  Seq  8:    94 tokens  [ATC TCG CGA GAT ATC TCG CGA GAT ATC TCG CGT GTT ...]
+
+  Vocabulary size: 69
+
+========================================================================
+  STAGE 6: Sequence Encoding (max_length=128)
+========================================================================
+  Seq  1: total=128, real=120, padded=8
+  Seq  2: total=128, real=120, padded=8
+  Seq  3: total=128, real=120, padded=8
+  Seq  4: total=128, real=108, padded=20
+  Seq  5: total=128, real=108, padded=20
+  Seq  6: total=128, real=108, padded=20
+  Seq  7: total=128, real=108, padded=20
+  Seq  8: total=128, real=96, padded=32
+
+========================================================================
+  STAGE 7-8: DNABERT Model & Prediction
+========================================================================
+  Seq  1  ->  BENIGN        (probs: [0.5777, 0.4223])
+  Seq  2  ->  BENIGN        (probs: [0.5769, 0.4231])
+  Seq  3  ->  BENIGN        (probs: [0.5756, 0.4244])
+  Seq  4  ->  BENIGN        (probs: [0.5684, 0.4316])
+  Seq  5  ->  BENIGN        (probs: [0.5768, 0.4232])
+  Seq  6  ->  BENIGN        (probs: [0.5857, 0.4143])
+  Seq  7  ->  BENIGN        (probs: [0.5785, 0.4215])
+  Seq  8  ->  BENIGN        (probs: [0.5670, 0.4330])
+
+========================================================================
+  STAGE 9: Evaluation (placeholder)
+========================================================================
+  Accuracy : 0.1250
+  F1 Score : 0.0000
+
+  NOTE: True labels are synthetic placeholders. Replace with
+        real annotations (e.g. ClinVar) for meaningful evaluation.
+
+========================================================================
+  PIPELINE COMPLETE
+========================================================================
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Parsed GFA: 12 segments, 17 links, 2 named paths
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Built directed graph: 12 nodes, 17 edges
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Found 9 strongly connected components
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Contracted SCC with 4 nodes into super-node 'SCC_s3_s4_s5_s6'
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - DAG after SCC contraction: 9 nodes, 12 edges
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Extracting topological paths: 1 sources, 1 sinks, max 10 paths
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Extracted 8 topological paths
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Generated 3 random-walk paths
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Total unique paths: 8 (topo=8, random-walk=3, after dedup)
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - KmerTokenizer initialised: k=3, stride=1, vocab_size=69
+[2026-04-28 15:25:59] INFO     pangenome_pipeline - Attempting to load pretrained model 'zhihan1996/DNA_bert_3' ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 199/199 [00:00<00:00, 35164.58it/s]
+[transformers] [1mBertForSequenceClassification LOAD REPORT[0m from: zhihan1996/DNA_bert_3
+Key                                        | Status     | 
+-------------------------------------------+------------+-
+cls.predictions.transform.dense.bias       | UNEXPECTED | 
+cls.predictions.transform.LayerNorm.bias   | UNEXPECTED | 
+cls.predictions.decoder.bias               | UNEXPECTED | 
+cls.predictions.bias                       | UNEXPECTED | 
+cls.predictions.transform.LayerNorm.weight | UNEXPECTED | 
+cls.predictions.decoder.weight             | UNEXPECTED | 
+cls.predictions.transform.dense.weight     | UNEXPECTED | 
+classifier.bias                            | MISSING    | 
+classifier.weight                          | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[2026-04-28 15:26:10] INFO     pangenome_pipeline - Successfully loaded pretrained model
+[2026-04-28 15:26:10] INFO     pangenome_pipeline - DNABertClassifier ready on cpu  (params: 86,095,874)
+[2026-04-28 15:26:11] INFO     pangenome_pipeline - Evaluation - accuracy: 0.1250, F1: 0.0000

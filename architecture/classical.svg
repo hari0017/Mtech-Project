@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1130" viewBox="0 0 1600 1130">
+<rect width="100%" height="100%" fill="white"/>
+<text x="60" y="48" fill="#263744" font-family="Arial,sans-serif" font-size="42" font-weight="700" text-anchor="start" dominant-baseline="hanging">Classical ML training and prediction</text>
+<text x="60" y="108" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="start" dominant-baseline="hanging">Web requests delegate to one fold-contained scikit-learn experiment pipeline</text>
+<rect x="60" y="185" width="440" height="145" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="280.0" y="220" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Browser | POST /train</text>
+<text x="280.0" y="263" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Settings and dataset path</text>
+<text x="280.0" y="298" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Choose model / feature comparison</text>
+<rect x="580" y="185" width="440" height="145" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="800.0" y="220" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Load + split + audit</text>
+<text x="800.0" y="263" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">FASTA -&gt; gene/class records</text>
+<text x="800.0" y="298" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Stratified train / holdout</text>
+<rect x="1100" y="185" width="440" height="145" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1320.0" y="220" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Training partition</text>
+<text x="1320.0" y="263" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">5-fold gene/class CV</text>
+<text x="1320.0" y="298" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Same folds for all candidates</text>
+<line x1="500" y1="257" x2="580" y2="257" stroke="#263744" stroke-width="4"/>
+<polygon points="580,257 566,248 566,266" fill="#263744"/>
+<line x1="1020" y1="257" x2="1100" y2="257" stroke="#263744" stroke-width="4"/>
+<polygon points="1100,257 1086,248 1086,266" fill="#263744"/>
+<line x1="1320" y1="330" x2="1320" y2="390" stroke="#263744" stroke-width="4"/>
+<polygon points="1320,390 1311,376 1329,376" fill="#263744"/>
+<rect x="60" y="390" width="1480" height="160" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="800.0" y="425" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Fold-contained fitting</text>
+<text x="800.0" y="468" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">GeneFeatures: training references, k-mers, composition, mutation/context, gene indicators</text>
+<text x="800.0" y="503" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Optional feature selection -&gt; StandardScaler -&gt; FoldClassifier (optional training-only SMOTE)</text>
+<line x1="405" y1="550" x2="405" y2="600" stroke="#263744" stroke-width="4"/>
+<polygon points="405,600 396,586 414,586" fill="#263744"/>
+<rect x="60" y="600" width="690" height="145" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="405.0" y="635" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Select and evaluate</text>
+<text x="405.0" y="678" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Mean CV macro F1 -&gt; select -&gt; refit</text>
+<text x="405.0" y="713" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Holdout metrics, curves and per-gene results</text>
+<rect x="850" y="600" width="690" height="145" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1195.0" y="635" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Retain fitted pipeline</text>
+<text x="1195.0" y="678" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Flask _state in process memory</text>
+<text x="1195.0" y="713" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">New training replaces model; restart clears state</text>
+<line x1="750" y1="672" x2="850" y2="672" stroke="#263744" stroke-width="4"/>
+<polygon points="850,672 836,663 836,681" fill="#263744"/>
+<rect x="60" y="830" width="440" height="160" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="280.0" y="865" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Browser | POST /predict</text>
+<text x="280.0" y="908" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">FASTA file + selected gene</text>
+<text x="280.0" y="943" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">1-100 records; request &lt;=16 MB</text>
+<rect x="580" y="830" width="440" height="160" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="800.0" y="865" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Validate and transform</text>
+<text x="800.0" y="908" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">ACGT only; full-length +/-5%</text>
+<text x="800.0" y="943" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Reuse trained references and scaler</text>
+<rect x="1100" y="830" width="440" height="160" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1320.0" y="865" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">JSON response</text>
+<text x="1320.0" y="908" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Healthy / Unhealthy labels</text>
+<text x="1320.0" y="943" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Probabilities + research warning</text>
+<line x1="500" y1="910" x2="580" y2="910" stroke="#263744" stroke-width="4"/>
+<polygon points="580,910 566,901 566,919" fill="#263744"/>
+<line x1="1020" y1="910" x2="1100" y2="910" stroke="#263744" stroke-width="4"/>
+<polygon points="1100,910 1086,901 1086,919" fill="#263744"/>
+<line x1="1195" y1="745" x2="1195" y2="785" stroke="#263744" stroke-width="4"/>
+<line x1="800" y1="785" x2="1195" y2="785" stroke="#263744" stroke-width="4"/>
+<line x1="800" y1="785" x2="800" y2="830" stroke="#263744" stroke-width="4"/>
+<polygon points="800,830 791,816 809,816" fill="#263744"/>
+<text x="1050" y="805" fill="#263744" font-family="Arial,sans-serif" font-size="24" font-weight="400" text-anchor="middle" dominant-baseline="central">Reuse fitted model</text>
+<text x="800" y="1060" fill="#ad4d30" font-family="Arial,sans-serif" font-size="27" font-weight="700" text-anchor="middle" dominant-baseline="central">Audit reports exact duplicate leakage; current splitting does not enforce biological groups</text>
+</svg>

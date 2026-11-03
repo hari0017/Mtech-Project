@@ -1,0 +1,389 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4200" height="2660" viewBox="0 0 4200 2660">
+<title>Complete end-to-end architecture of the genomic sequence classification project</title>
+<desc>One system-level architecture with six processing stages and two independent execution lanes: pangenome-to-DNABERT and FASTA-to-classical machine learning. Includes inputs, graph processing, representations, training, inference, evaluation, interfaces, storage and limitations.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#41566a"/></marker></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text x="2100" y="67" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="46" font-weight="700">GENOMIC SEQUENCE CLASSIFICATION: COMPLETE END-TO-END ARCHITECTURE</text>
+<text x="2100" y="113" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="30" font-weight="400">Pangenome-based pathogenicity research + APP / PSEN1 / PSEN2 gene classification | Implementation-based system view</text>
+<rect x="65" y="154" width="640" height="2020" rx="0" fill="#e8f5fe" stroke="#4b99c2" stroke-width="2"/>
+<text x="385" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">1. INPUTS &amp; ENTRY POINTS</text>
+<text x="385" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Data, labels and user access</text>
+<polyline points="709,202 747,202" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="747,202 733,195 733,209" fill="#41566a"/>
+<rect x="755" y="154" width="640" height="2020" rx="0" fill="#fff7d9" stroke="#c4a045" stroke-width="2"/>
+<text x="1075" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">2. DATA PREPROCESSING</text>
+<text x="1075" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Graph / sequence preparation</text>
+<polyline points="1399,202 1437,202" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1437,202 1423,195 1423,209" fill="#41566a"/>
+<rect x="1445" y="154" width="640" height="2020" rx="0" fill="#eaf5e5" stroke="#79a269" stroke-width="2"/>
+<text x="1765" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">3. INPUT REPRESENTATION</text>
+<text x="1765" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Tokens / engineered features</text>
+<polyline points="2089,202 2127,202" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2127,202 2113,195 2113,209" fill="#41566a"/>
+<rect x="2135" y="154" width="640" height="2020" rx="0" fill="#f0e9fc" stroke="#9b7cc2" stroke-width="2"/>
+<text x="2455" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">4. TRAINING &amp; SELECTION</text>
+<text x="2455" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Fit only on training partitions</text>
+<polyline points="2779,202 2817,202" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2817,202 2803,195 2803,209" fill="#41566a"/>
+<rect x="2825" y="154" width="640" height="2020" rx="0" fill="#fcebea" stroke="#c58a87" stroke-width="2"/>
+<text x="3145" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">5. INFERENCE &amp; PREDICTION</text>
+<text x="3145" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Reuse trained model state</text>
+<polyline points="3469,202 3507,202" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3507,202 3493,195 3493,209" fill="#41566a"/>
+<rect x="3515" y="154" width="640" height="2020" rx="0" fill="#e9eefb" stroke="#7e95c3" stroke-width="2"/>
+<text x="3835" y="203" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="30" font-weight="700">6. EVALUATION &amp; OUTPUTS</text>
+<text x="3835" y="240" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="26" font-weight="400">Held-out results and artifacts</text>
+<rect x="45" y="265" width="4110" height="67" rx="7" fill="#326782" stroke="#326782" stroke-width="2"/>
+<text x="70" y="308" text-anchor="start" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="700">A | PANGENOME GRAPH -&gt; DNABERT</text>
+<text x="4130" y="307" text-anchor="end" fill="#ffffff" font-family="Arial, sans-serif" font-size="25" font-weight="400">Command-line workflow: main.py | BENIGN / PATHOGENIC</text>
+<rect x="45" y="1230" width="4110" height="67" rx="7" fill="#4c7756" stroke="#4c7756" stroke-width="2"/>
+<text x="70" y="1273" text-anchor="start" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="700">B | FASTA GENE SEQUENCES -&gt; CLASSICAL MACHINE LEARNING</text>
+<text x="4130" y="1272" text-anchor="end" fill="#ffffff" font-family="Arial, sans-serif" font-size="25" font-weight="400">Browser + CLI workflow | Healthy / Unhealthy</text>
+<rect x="85" y="335" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Pangenome graph input</text>
+<text x="385.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">GFA / rGFA subset</text>
+<text x="385.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Segments, links, named paths</text>
+<text x="385.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">sample.gfa or a supplied graph</text>
+<rect x="85" y="540" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Optional graph preparation</text>
+<text x="385.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">ClinVar SNVs or fallback records</text>
+<text x="385.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Allele bubbles + synthetic flanks</text>
+<text x="385.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">download_dataset.py: demonstration helper</text>
+<rect x="85" y="745" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Annotations + pretrained assets</text>
+<text x="385.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">CSV / TSV / VCF class labels</text>
+<text x="385.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Local or Hugging Face checkpoint</text>
+<text x="385.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Path-to-label correspondence must be verified</text>
+<rect x="85" y="950" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Command-line configuration</text>
+<text x="385.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Graph, k, length, path caps, seed</text>
+<text x="385.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">--train / --model / --labels</text>
+<text x="385.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">main.py + utils.PipelineConfig</text>
+<rect x="775" y="335" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Parse GFA records</text>
+<text x="1075.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Read H / S / L / P records</text>
+<text x="1075.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Validate segment DNA</text>
+<text x="1075.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">graph_processing.py</text>
+<rect x="775" y="540" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Construct directed graph</text>
+<text x="1075.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Segments -&gt; sequence nodes</text>
+<text x="1075.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Links -&gt; directed edges</text>
+<text x="1075.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">NetworkX DiGraph</text>
+<rect x="775" y="745" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Contract cycles into a DAG</text>
+<text x="1075.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Strongly connected components</text>
+<text x="1075.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Sorted member concatenation</text>
+<text x="1075.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">SCC map retains member identifiers</text>
+<rect x="775" y="950" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Extract paths and linearize</text>
+<text x="1075.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Capped DFS + seeded random walks</text>
+<text x="1075.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Deduplicate paths; concatenate DNA</text>
+<text x="1075.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">path_extraction.py + sequence_processing.py</text>
+<polyline points="1075,508 1075,540" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,540 1068,526 1082,526" fill="#41566a"/>
+<polyline points="1075,713 1075,745" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,745 1068,731 1082,731" fill="#41566a"/>
+<polyline points="1075,918 1075,950" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,950 1068,936 1082,936" fill="#41566a"/>
+<rect x="1465" y="335" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Overlapping k-mer tokens</text>
+<text x="1765.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Sliding window, stride = 1</text>
+<text x="1765.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">k = 3 / 4 / 5 / 6</text>
+<text x="1765.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">tokenizer_module.KmerTokenizer</text>
+<rect x="1465" y="540" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Checkpoint-aligned token IDs</text>
+<text x="1765.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Load checkpoint tokenizer vocabulary</text>
+<text x="1765.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Reject incompatible k-mer vocabulary</text>
+<text x="1765.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Token IDs must match embedding rows</text>
+<rect x="1465" y="745" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Fixed-length input encoding</text>
+<text x="1765.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">[CLS] + k-mers + [SEP] + [PAD]</text>
+<text x="1765.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Default L = 128; warn on truncation</text>
+<text x="1765.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">sequence_processing.encode_tokens</text>
+<rect x="1465" y="950" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">BERT-ready model inputs</text>
+<text x="1765.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">input_ids + attention_mask: [B, L]</text>
+<text x="1765.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">BERT generates positions internally</text>
+<text x="1765.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Original DNA retained in EncodedSequence</text>
+<polyline points="1765,508 1765,540" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,540 1758,526 1772,526" fill="#41566a"/>
+<polyline points="1765,713 1765,745" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,745 1758,731 1772,731" fill="#41566a"/>
+<polyline points="1765,918 1765,950" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,950 1758,936 1772,936" fill="#41566a"/>
+<rect x="2155" y="335" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Label mapping and grouped split</text>
+<text x="2455.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Identical encoded inputs stay together</text>
+<text x="2455.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">~56% train / 14% val / 30% test</text>
+<text x="2455.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Reject conflicting groups / insufficient classes</text>
+<rect x="2155" y="540" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Fine-tune DNABERT + binary head</text>
+<text x="2455.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Class-weighted cross-entropy; AdamW</text>
+<text x="2455.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Train partition only; CPU / CUDA</text>
+<text x="2455.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">dnabert_model.py | fixed epoch count</text>
+<rect x="2155" y="745" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Validation threshold selection</text>
+<text x="2455.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Maximize validation binary F1</text>
+<text x="2455.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">0.05-0.95 grid; ties prefer 0.5</text>
+<text x="2455.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Never choose the threshold on test labels</text>
+<rect x="2155" y="950" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Persist model and experiment</text>
+<text x="2455.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Weights + config + tokenizer</text>
+<text x="2455.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Threshold + run metadata</text>
+<text x="2455.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">output_dir / experiment.json</text>
+<polyline points="2455,508 2455,540" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,540 2448,526 2462,526" fill="#41566a"/>
+<polyline points="2455,713 2455,745" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,745 2448,731 2462,731" fill="#41566a"/>
+<polyline points="2455,918 2455,950" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,950 2448,936 2462,936" fill="#41566a"/>
+<rect x="2845" y="335" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">New graph or held-out input</text>
+<text x="3145.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Apply the same preprocessing</text>
+<text x="3145.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Same checkpoint k and length</text>
+<text x="3145.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Reuse stages 2-3 for inference inputs</text>
+<rect x="2845" y="540" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Load a trained classifier</text>
+<text x="3145.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Local checkpoint or trained model</text>
+<text x="3145.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Reject an untrained classifier head</text>
+<text x="3145.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">No random-model fallback</text>
+<rect x="2845" y="745" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Transformer forward pass</text>
+<text x="3145.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">BERT encoder -&gt; classification logits</text>
+<text x="3145.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Softmax -&gt; two class probabilities</text>
+<text x="3145.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">No gradient updates during prediction</text>
+<rect x="2845" y="950" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Apply fixed class threshold</text>
+<text x="3145.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">p(PATHOGENIC) &gt;= threshold</text>
+<text x="3145.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">BENIGN (0) / PATHOGENIC (1)</text>
+<text x="3145.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Saved threshold; otherwise default 0.5</text>
+<polyline points="3145,508 3145,540" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,540 3138,526 3152,526" fill="#41566a"/>
+<polyline points="3145,713 3145,745" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,745 3138,731 3152,731" fill="#41566a"/>
+<polyline points="3145,918 3145,950" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,950 3138,936 3152,936" fill="#41566a"/>
+<rect x="3535" y="335" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="371" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Evaluate held-out test inputs</text>
+<text x="3835.0" y="411" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Training run: untouched test partition</text>
+<text x="3835.0" y="444" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Inference: metrics only with labels</text>
+<text x="3835.0" y="495" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Checkpoint / label independence still matters</text>
+<rect x="3535" y="540" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="576" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Classification metrics</text>
+<text x="3835.0" y="616" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Accuracy, precision, recall, binary F1</text>
+<text x="3835.0" y="649" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">ROC-AUC, average precision, matrix</text>
+<text x="3835.0" y="700" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">No accuracy claim without verified labels</text>
+<rect x="3535" y="745" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="781" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Durable experiment record</text>
+<text x="3835.0" y="821" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Splits, counts, config, training history</text>
+<text x="3835.0" y="854" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Package versions + input SHA-256</text>
+<text x="3835.0" y="905" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">experiment.json includes test metrics</text>
+<rect x="3535" y="950" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="986" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Research prediction output</text>
+<text x="3835.0" y="1026" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Console class + probabilities</text>
+<text x="3835.0" y="1059" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Saved checkpoint reused in later runs</text>
+<text x="3835.0" y="1110" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Not a verified clinical interpretation</text>
+<polyline points="3835,508 3835,540" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,540 3828,526 3842,526" fill="#41566a"/>
+<polyline points="3835,713 3835,745" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,745 3828,731 3842,731" fill="#41566a"/>
+<polyline points="3835,918 3835,950" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,950 3828,936 3842,936" fill="#41566a"/>
+<polyline points="685,420 730,420 730,420 775,420" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="775,420 761,413 761,427" fill="#41566a"/>
+<polyline points="1375,1035 1420,1035 1420,420 1465,420" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1465,420 1451,413 1451,427" fill="#41566a"/>
+<polyline points="2065,1035 2110,1035 2110,420 2155,420" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2155,420 2141,413 2141,427" fill="#41566a"/>
+<polyline points="2755,1035 2800,1035 2800,625 2845,625" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2845,625 2831,618 2831,632" fill="#41566a"/>
+<polyline points="3445,1035 3490,1035 3490,625 3535,625" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3535,625 3521,618 3521,632" fill="#41566a"/>
+<rect x="85" y="1300" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Gene-organized FASTA dataset</text>
+<text x="385.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">APP / PSEN1 / PSEN2 sequences</text>
+<text x="385.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Healthy and Unhealthy subfolders</text>
+<text x="385.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Dataset folder selected by the user</text>
+<rect x="85" y="1505" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Folder-derived class labels</text>
+<text x="385.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">output_safe_healthy -&gt; 0</text>
+<text x="385.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">output_safe_unhealthy -&gt; 1</text>
+<text x="385.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Label provenance needs independent review</text>
+<rect x="85" y="1710" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Browser or command line</text>
+<text x="385.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Flask dashboard: GET /</text>
+<text x="385.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">gene_classifier.py experiment CLI</text>
+<text x="385.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">templates/index.html + app.py</text>
+<rect x="85" y="1915" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="385.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">New prediction upload</text>
+<text x="385.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">FASTA records + selected gene</text>
+<text x="385.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">POST /predict after web training</text>
+<text x="385.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Enters inference at stage 5, not training</text>
+<rect x="775" y="1300" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Load and clean FASTA files</text>
+<text x="1075.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Uppercase; retain A / C / G / T</text>
+<text x="1075.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Collect sequence, label, gene, file</text>
+<text x="1075.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">gene_classifier.load_data / read_fasta</text>
+<rect x="775" y="1505" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Audit dataset integrity</text>
+<text x="1075.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Exact duplicates + label conflicts</text>
+<text x="1075.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Report train / holdout overlap</text>
+<text x="1075.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">POST /audit or --audit-only; does not block</text>
+<rect x="775" y="1710" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Reserve a stratified holdout</text>
+<text x="1075.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Stratify by gene + class; seed 42</text>
+<text x="1075.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Default 70% training / 30% test</text>
+<text x="1075.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">validation_pipeline.run_experiment</text>
+<rect x="775" y="1915" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="1075.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Build training-only CV folds</text>
+<text x="1075.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">5-fold stratification by gene + class</text>
+<text x="1075.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Identical folds for every candidate</text>
+<text x="1075.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">At least 5 training samples per gene/class</text>
+<polyline points="1075,1473 1075,1505" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,1505 1068,1491 1082,1491" fill="#41566a"/>
+<polyline points="1075,1678 1075,1710" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,1710 1068,1696 1082,1696" fill="#41566a"/>
+<polyline points="1075,1883 1075,1915" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1075,1915 1068,1901 1082,1901" fill="#41566a"/>
+<rect x="1465" y="1300" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Learn fold-specific references</text>
+<text x="1765.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">First healthy reference per gene</text>
+<text x="1765.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Fit on each training fold only</text>
+<text x="1765.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">GeneFeatures.fit</text>
+<rect x="1465" y="1505" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Extract sequence feature families</text>
+<text x="1765.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Global k-mers + 6 composition stats</text>
+<text x="1765.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">11 mutation + context + gene IDs</text>
+<text x="1765.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">All features at k = 4: 532 dimensions</text>
+<rect x="1465" y="1710" width="600" height="173" rx="4" fill="#ffffff" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Fold-contained transformations</text>
+<text x="1765.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Optional mutual-information selection</text>
+<text x="1765.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Fit StandardScaler on training only</text>
+<text x="1765.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Reuse fitted transforms for validation/test</text>
+<rect x="1465" y="1915" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="1765.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Training-only imbalance handling</text>
+<text x="1765.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Optional SMOTE within classifier.fit</text>
+<text x="1765.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Class weighting in model fitting</text>
+<text x="1765.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">No validation / test resampling</text>
+<polyline points="1765,1473 1765,1505" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,1505 1758,1491 1772,1491" fill="#41566a"/>
+<polyline points="1765,1678 1765,1710" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,1710 1758,1696 1772,1696" fill="#41566a"/>
+<polyline points="1765,1883 1765,1915" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1765,1915 1758,1901 1772,1901" fill="#41566a"/>
+<rect x="2155" y="1300" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Train candidate classifiers</text>
+<text x="2455.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Random Forest / SVM / LR / GB</text>
+<text x="2455.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">XGBoost / LightGBM if installed</text>
+<text x="2455.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Optional tuning + soft voting via CLI/engine</text>
+<rect x="2155" y="1505" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Select with cross-validation</text>
+<text x="2455.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Compare models / feature subsets</text>
+<text x="2455.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Highest mean CV macro F1 wins</text>
+<text x="2455.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Never choose the winner using holdout scores</text>
+<rect x="2155" y="1710" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Refit the winning pipeline</text>
+<text x="2455.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Full training partition only</text>
+<text x="2455.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Features -&gt; scale -&gt; classifier</text>
+<text x="2455.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Selected preprocessing travels with the model</text>
+<rect x="2155" y="1915" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="2455.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Retain active web model</text>
+<text x="2455.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Fitted pipeline in Flask _state</text>
+<text x="2455.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Replaced by retraining; lost on restart</text>
+<text x="2455.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">app.py does not auto-load model.pkl</text>
+<polyline points="2455,1473 2455,1505" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,1505 2448,1491 2462,1491" fill="#41566a"/>
+<polyline points="2455,1678 2455,1710" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,1710 2448,1696 2462,1696" fill="#41566a"/>
+<polyline points="2455,1883 2455,1915" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2455,1915 2448,1901 2462,1901" fill="#41566a"/>
+<rect x="2845" y="1300" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Validate uploaded FASTA</text>
+<text x="3145.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">1-100 records; &lt;=16 MB request</text>
+<text x="3145.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">ACGT only; reference length +/-5%</text>
+<text x="3145.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Selected gene must have a trained reference</text>
+<rect x="2845" y="1505" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Reuse the fitted pipeline</text>
+<text x="3145.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Same references, features and scaler</text>
+<text x="3145.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Do not refit on uploaded sequences</text>
+<text x="3145.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Process-local Flask pipeline required</text>
+<rect x="2845" y="1710" width="600" height="173" rx="4" fill="#dcecf8" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Classify each uploaded record</text>
+<text x="3145.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">pipeline.predict + predict_proba</text>
+<text x="3145.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Healthy (0) / Unhealthy (1)</text>
+<text x="3145.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">No automatic gene / alignment verification</text>
+<rect x="2845" y="1915" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3145.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Return browser prediction JSON</text>
+<text x="3145.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Record header, gene, length, class</text>
+<text x="3145.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Probability, counts, research warning</text>
+<text x="3145.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">POST /predict -&gt; dashboard</text>
+<polyline points="3145,1473 3145,1505" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,1505 3138,1491 3152,1491" fill="#41566a"/>
+<polyline points="3145,1678 3145,1710" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,1710 3138,1696 3152,1696" fill="#41566a"/>
+<polyline points="3145,1883 3145,1915" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3145,1915 3138,1901 3152,1901" fill="#41566a"/>
+<rect x="3535" y="1300" width="600" height="173" rx="4" fill="#f6f0cf" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="1336" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Evaluate the reserved holdout</text>
+<text x="3835.0" y="1376" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Only after candidate selection/refit</text>
+<text x="3835.0" y="1409" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Per-gene test results also reported</text>
+<text x="3835.0" y="1460" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Exact duplicates are audited, not grouped</text>
+<rect x="3535" y="1505" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="1541" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Metrics and model comparison</text>
+<text x="3835.0" y="1581" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Accuracy; macro / weighted F1</text>
+<text x="3835.0" y="1614" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Per-class precision/recall; AUC / AP</text>
+<text x="3835.0" y="1665" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">CV means / std + confusion matrix</text>
+<rect x="3535" y="1710" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="1746" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Visualize experiment results</text>
+<text x="3835.0" y="1786" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">ROC + PR curves; confusion matrix</text>
+<text x="3835.0" y="1819" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Feature importance where supported</text>
+<text x="3835.0" y="1870" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Dashboard JSON; CLI can save plot PNGs</text>
+<rect x="3535" y="1915" width="600" height="173" rx="4" fill="#e0f0e2" stroke="#758896" stroke-width="1.7"/>
+<text x="3835.0" y="1951" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">Present research findings</text>
+<text x="3835.0" y="1991" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Dataset summary, audit, split counts</text>
+<text x="3835.0" y="2024" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Comparison table + prediction results</text>
+<text x="3835.0" y="2075" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="20" font-weight="400">Model probabilities are not disease risks</text>
+<polyline points="3835,1473 3835,1505" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,1505 3828,1491 3842,1491" fill="#41566a"/>
+<polyline points="3835,1678 3835,1710" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,1710 3828,1696 3842,1696" fill="#41566a"/>
+<polyline points="3835,1883 3835,1915" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="3835,1915 3828,1901 3842,1901" fill="#41566a"/>
+<polyline points="685,1385 730,1385 730,1385 775,1385" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="775,1385 761,1378 761,1392" fill="#41566a"/>
+<polyline points="1375,2000 1420,2000 1420,1385 1465,1385" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="1465,1385 1451,1378 1451,1392" fill="#41566a"/>
+<polyline points="2065,2000 2110,2000 2110,1385 2155,1385" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2155,1385 2141,1378 2141,1392" fill="#41566a"/>
+<polyline points="2755,2000 2800,2000 2800,1590 2845,1590" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round"/>
+<polygon points="2845,1590 2831,1583 2831,1597" fill="#41566a"/>
+<polyline points="2755,1795 2800,1795 2800,1208 3490,1208 3490,1385 3535,1385" fill="none" stroke="#41566a" stroke-width="3.2" stroke-linejoin="round" stroke-dasharray="10 8"/>
+<polygon points="3535,1385 3521,1378 3521,1392" fill="#41566a"/>
+<text x="3140" y="1199" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="22" font-weight="400">Reserved holdout -&gt; selected pipeline -&gt; test evaluation</text>
+<text x="2100" y="1178" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="29" font-weight="700">A and B are two execution paths within one project.</text>
+<text x="2100" y="2145" text-anchor="middle" fill="#41566a" font-family="Arial, sans-serif" font-size="26" font-weight="400">READING GUIDE: solid arrows = processing / model flow; dashed route = classical holdout evaluation. Uploads enter stage 5 directly.</text>
+<rect x="65" y="2220" width="1000" height="270" rx="7" fill="#f5f7fa" stroke="#b1becb" stroke-width="2"/>
+<text x="565" y="2265" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">USER INTERFACE &amp; ORCHESTRATION</text>
+<text x="565" y="2315" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Flask on localhost:5000: /, /audit, /train, /predict.</text>
+<text x="565" y="2355" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Browser: Bootstrap + Chart.js; external CDN assets.</text>
+<text x="565" y="2395" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Training requests are synchronous; no job queue.</text>
+<text x="565" y="2435" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">DNABERT runs separately through main.py CLI.</text>
+<rect x="1100" y="2220" width="1000" height="270" rx="7" fill="#f5f7fa" stroke="#b1becb" stroke-width="2"/>
+<text x="1600" y="2265" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">RUNTIME, STORAGE &amp; REPRODUCIBILITY</text>
+<text x="1600" y="2315" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Local files + in-memory Python / NetworkX objects.</text>
+<text x="1600" y="2355" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">PyTorch: CPU or available CUDA; scikit-learn: local.</text>
+<text x="1600" y="2395" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">DNABERT: persistent checkpoint / tokenizer / JSON.</text>
+<text x="1600" y="2435" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">No database, distributed worker or model registry.</text>
+<rect x="2135" y="2220" width="1000" height="270" rx="7" fill="#f5f7fa" stroke="#b1becb" stroke-width="2"/>
+<text x="2635" y="2265" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">SCIENTIFIC BOUNDARIES</text>
+<text x="2635" y="2315" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">SCC order, strand orientation and overlaps are simplified.</text>
+<text x="2635" y="2355" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Long DNABERT inputs truncate; labels need path mapping.</text>
+<text x="2635" y="2395" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Helper-generated graph flanks are synthetic, not loci.</text>
+<text x="2635" y="2435" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Related-sample leakage and clinical validity not resolved.</text>
+<rect x="3170" y="2220" width="1000" height="270" rx="7" fill="#f5f7fa" stroke="#b1becb" stroke-width="2"/>
+<text x="3670" y="2265" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="29" font-weight="700">SUPPORTING CODE &amp; QUALITY CHECKS</text>
+<text x="3670" y="2315" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">utils.py: configuration, seed usage and logging support.</text>
+<text x="3670" y="2355" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">Tests: test_dnabert_pipeline + test_validation_pipeline.</text>
+<text x="3670" y="2395" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">generate_report.py: static report helper, not live results.</text>
+<text x="3670" y="2435" text-anchor="middle" fill="#172b3a" font-family="Arial, sans-serif" font-size="27" font-weight="400">No automatic fusion, diagnosis or proven accuracy gain.</text>
+</svg>

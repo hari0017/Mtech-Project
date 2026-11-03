@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120">
+<rect width="100%" height="100%" fill="white"/>
+<text x="60" y="48" fill="#263744" font-family="Arial,sans-serif" font-size="42" font-weight="700" text-anchor="start" dominant-baseline="hanging">System architecture</text>
+<text x="60" y="108" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="start" dominant-baseline="hanging">As implemented: two independent workflows on a local workstation</text>
+<text x="405" y="190" fill="#ad4d30" font-family="Arial,sans-serif" font-size="31" font-weight="700" text-anchor="middle" dominant-baseline="central">Lane A | Pangenome / DNABERT</text>
+<text x="1195" y="190" fill="#286f73" font-family="Arial,sans-serif" font-size="31" font-weight="700" text-anchor="middle" dominant-baseline="central">Lane B | Web / classical ML</text>
+<rect x="60" y="240" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#ad4d30" stroke-width="3"/>
+<text x="405.0" y="275" fill="#ad4d30" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Graph and annotations</text>
+<text x="405.0" y="318" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">GFA/rGFA + optional labels</text>
+<rect x="850" y="240" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1195.0" y="275" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Browser and FASTA dataset</text>
+<text x="1195.0" y="318" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">APP / PSEN1 / PSEN2</text>
+<line x1="405" y1="390" x2="405" y2="425" stroke="#263744" stroke-width="4"/>
+<polygon points="405,425 396,411 414,411" fill="#263744"/>
+<line x1="1195" y1="390" x2="1195" y2="425" stroke="#263744" stroke-width="4"/>
+<polygon points="1195,425 1186,411 1204,411" fill="#263744"/>
+<rect x="60" y="425" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#ad4d30" stroke-width="3"/>
+<text x="405.0" y="460" fill="#ad4d30" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">CLI controller | main.py</text>
+<text x="405.0" y="503" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Graph -&gt; DAG -&gt; sampled paths</text>
+<rect x="850" y="425" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1195.0" y="460" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Flask controller | app.py</text>
+<text x="1195.0" y="503" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">/audit  /train  /predict</text>
+<line x1="405" y1="575" x2="405" y2="610" stroke="#263744" stroke-width="4"/>
+<polygon points="405,610 396,596 414,596" fill="#263744"/>
+<line x1="1195" y1="575" x2="1195" y2="610" stroke="#263744" stroke-width="4"/>
+<polygon points="1195,610 1186,596 1204,596" fill="#263744"/>
+<rect x="60" y="610" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#ad4d30" stroke-width="3"/>
+<text x="405.0" y="645" fill="#ad4d30" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Sequence model pipeline</text>
+<text x="405.0" y="688" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">K-mers -&gt; checkpoint DNABERT</text>
+<rect x="850" y="610" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1195.0" y="645" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Classical experiment pipeline</text>
+<text x="1195.0" y="688" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Features -&gt; scaling -&gt; classifier</text>
+<line x1="405" y1="760" x2="405" y2="795" stroke="#263744" stroke-width="4"/>
+<polygon points="405,795 396,781 414,781" fill="#263744"/>
+<line x1="1195" y1="760" x2="1195" y2="795" stroke="#263744" stroke-width="4"/>
+<polygon points="1195,795 1186,781 1204,781" fill="#263744"/>
+<rect x="60" y="795" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#ad4d30" stroke-width="3"/>
+<text x="405.0" y="830" fill="#ad4d30" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Research outputs</text>
+<text x="405.0" y="873" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Predictions, model + tokenizer</text>
+<text x="405.0" y="908" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Held-out metrics, experiment.json</text>
+<rect x="850" y="795" width="690" height="150" rx="16" fill="#f4f6f8" stroke="#286f73" stroke-width="3"/>
+<text x="1195.0" y="830" fill="#286f73" font-family="Arial,sans-serif" font-size="29" font-weight="700" text-anchor="middle" dominant-baseline="central">Research outputs</text>
+<text x="1195.0" y="873" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Dashboard, curves and predictions</text>
+<text x="1195.0" y="908" fill="#263744" font-family="Arial,sans-serif" font-size="25" font-weight="400" text-anchor="middle" dominant-baseline="central">Fitted pipeline in memory</text>
+<text x="800" y="1040" fill="#263744" font-family="Arial,sans-serif" font-size="27" font-weight="700" text-anchor="middle" dominant-baseline="central">No implemented Flask-to-DNABERT connection | No shared database or model service</text>
+</svg>

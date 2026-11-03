@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1230" viewBox="0 0 3000 1230">
+<title>Simplified end-to-end architecture of genomic sequence classification</title>
+<desc>Five main stages cover both implemented workflows: inputs, preprocessing, representation, modeling and prediction, and evaluation and outputs. The web application and DNABERT run independently.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="1500" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" font-weight="700" fill="#183044">GENOMIC SEQUENCE CLASSIFICATION</text>
+<text x="1500" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="31" font-weight="400" fill="#183044">Simplified end-to-end architecture | Five main stages for the complete project</text>
+<rect x="30" y="155" width="560" height="1045" rx="0" fill="#e7f3fc" stroke="#6ba2c4" stroke-width="2"/>
+<text x="310" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#183044">1. INPUT DATA</text>
+<text x="310" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Sources and user access</text>
+<rect x="625" y="155" width="560" height="1045" rx="0" fill="#fff6d7" stroke="#c4aa5b" stroke-width="2"/>
+<text x="905" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#183044">2. PREPROCESSING</text>
+<text x="905" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Prepare and validate</text>
+<rect x="1220" y="155" width="560" height="1045" rx="0" fill="#eaf4e3" stroke="#8eae78" stroke-width="2"/>
+<text x="1500" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#183044">3. REPRESENTATION</text>
+<text x="1500" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Convert DNA into model inputs</text>
+<rect x="1815" y="155" width="560" height="1045" rx="0" fill="#f1e9fb" stroke="#aa8ac8" stroke-width="2"/>
+<text x="2095" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#183044">4. MODELS &amp; PREDICTION</text>
+<text x="2095" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Train, select and reuse</text>
+<rect x="2410" y="155" width="560" height="1045" rx="0" fill="#fceae7" stroke="#c59289" stroke-width="2"/>
+<text x="2690" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#183044">5. EVALUATION &amp; OUTPUT</text>
+<text x="2690" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Measure and present results</text>
+<rect x="15" y="285" width="2970" height="65" rx="5" fill="#326782" stroke="#326782" stroke-width="2"/>
+<text x="1500" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#ffffff">A. PANGENOME -&gt; DNABERT WORKFLOW</text>
+<rect x="15" y="755" width="2970" height="65" rx="5" fill="#4c7756" stroke="#4c7756" stroke-width="2"/>
+<text x="1500" y="798" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#ffffff">B. FASTA -&gt; CLASSICAL ML WORKFLOW</text>
+<rect x="48" y="380" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="310" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Graph + labels + checkpoint</text>
+<text x="310" y="479" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">GFA / rGFA pangenome graph</text>
+<text x="310" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">CSV / TSV / VCF annotations</text>
+<text x="310" y="557" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Local / Hugging Face checkpoint</text>
+<text x="310" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Optional ClinVar demo graph helper</text>
+<text x="310" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Entry point: main.py command line</text>
+<path d="M572,530 H643" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="643,530 631,523 631,537" fill="#183044"/>
+<rect x="643" y="380" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="905" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Graph to DNA sequences</text>
+<text x="905" y="479" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Parse graph; build directed graph</text>
+<text x="905" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Contract cycles into a DAG</text>
+<text x="905" y="557" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Extract and deduplicate paths</text>
+<text x="905" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Concatenate path DNA sequences</text>
+<text x="905" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Graph processing + path extraction</text>
+<path d="M1167,530 H1238" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="1238,530 1226,523 1226,537" fill="#183044"/>
+<rect x="1238" y="380" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="1500" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Checkpoint-compatible tokens</text>
+<text x="1500" y="479" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Overlapping DNA k-mers</text>
+<text x="1500" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Checkpoint vocabulary token IDs</text>
+<text x="1500" y="557" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Special tokens + pad / truncate</text>
+<text x="1500" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Input IDs + attention masks</text>
+<text x="1500" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Tokenization + sequence encoding</text>
+<path d="M1762,530 H1833" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="1833,530 1821,523 1821,537" fill="#183044"/>
+<rect x="1833" y="380" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="2095" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">DNABERT binary classifier</text>
+<text x="2095" y="479" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Grouped train / validation / test</text>
+<text x="2095" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Fine-tune BERT + classification head</text>
+<text x="2095" y="557" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Choose threshold on validation</text>
+<text x="2095" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Reuse trained model for inference</text>
+<text x="2095" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Output: BENIGN / PATHOGENIC</text>
+<path d="M2357,530 H2428" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="2428,530 2416,523 2416,537" fill="#183044"/>
+<rect x="2428" y="380" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="2690" y="426" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Test metrics + saved experiment</text>
+<text x="2690" y="479" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Accuracy, precision, recall and F1</text>
+<text x="2690" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">ROC-AUC, AP and confusion matrix</text>
+<text x="2690" y="557" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Save model, tokenizer, threshold</text>
+<text x="2690" y="596" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Record splits, hashes and metrics</text>
+<text x="2690" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Console predictions + experiment.json</text>
+<rect x="48" y="850" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="310" y="896" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">FASTA dataset + user upload</text>
+<text x="310" y="949" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">APP / PSEN1 / PSEN2 sequences</text>
+<text x="310" y="988" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Healthy / Unhealthy folder labels</text>
+<text x="310" y="1027" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Browser settings or experiment CLI</text>
+<text x="310" y="1066" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">New FASTA upload + selected gene</text>
+<text x="310" y="1125" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Flask dashboard or gene_classifier.py</text>
+<path d="M572,1000 H643" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="643,1000 631,993 631,1007" fill="#183044"/>
+<rect x="643" y="850" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="905" y="896" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Sequence checks + data split</text>
+<text x="905" y="949" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Load and clean training FASTA</text>
+<text x="905" y="988" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Audit duplicates and label conflicts</text>
+<text x="905" y="1027" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Gene / class-stratified holdout</text>
+<text x="905" y="1066" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Five-fold CV on training data only</text>
+<text x="905" y="1125" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Upload: validate bases, size and length</text>
+<path d="M1167,1000 H1238" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="1238,1000 1226,993 1226,1007" fill="#183044"/>
+<rect x="1238" y="850" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="1500" y="896" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Fold-fitted feature pipeline</text>
+<text x="1500" y="949" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">K-mers + nucleotide composition</text>
+<text x="1500" y="988" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Mutation / context + gene features</text>
+<text x="1500" y="1027" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Training-fold healthy references</text>
+<text x="1500" y="1066" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Scaling; optional selection / SMOTE</text>
+<text x="1500" y="1125" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Reuse fitted transforms for prediction</text>
+<path d="M1762,1000 H1833" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="1833,1000 1821,993 1821,1007" fill="#183044"/>
+<rect x="1833" y="850" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="2095" y="896" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Classical ML classifiers</text>
+<text x="2095" y="949" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Random Forest / SVM / LR / GB</text>
+<text x="2095" y="988" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Select by training CV macro F1</text>
+<text x="2095" y="1027" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Refit winner; retain web pipeline</text>
+<text x="2095" y="1066" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Predict uploads without retraining</text>
+<text x="2095" y="1125" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Output: Healthy / Unhealthy</text>
+<path d="M2357,1000 H2428" stroke="#183044" stroke-width="3" fill="none"/>
+<polygon points="2428,1000 2416,993 2416,1007" fill="#183044"/>
+<rect x="2428" y="850" width="524" height="300" rx="5" fill="#ffffff" stroke="#8b9aa7" stroke-width="2"/>
+<text x="2690" y="896" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="700" fill="#183044">Held-out results + dashboard</text>
+<text x="2690" y="949" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Metrics, per-gene results and curves</text>
+<text x="2690" y="988" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Confusion matrix + model comparison</text>
+<text x="2690" y="1027" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Feature importance when available</text>
+<text x="2690" y="1066" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#183044">Per-record predictions + probabilities</text>
+<text x="2690" y="1125" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="400" fill="#40566b">Browser JSON / dashboard; CLI plot files</text>
+<text x="1500" y="724" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#183044">A and B are two execution paths within one project.</text>
+</svg>
